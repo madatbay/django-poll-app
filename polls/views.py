@@ -6,9 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
-from .forms import QuestionForm, ChoiceForm
-
-from .models import Question
+from .forms import AddPoll
+from .models import Question, Choice
 
 # Create your views here.
 
@@ -91,17 +90,16 @@ def logoutUser(request):
 
 @login_required(login_url='polls:login')
 def createPoll(request):
-    form = QuestionForm
-    form2 = ChoiceForm
+    form = AddPoll(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        new_form = form.save(commit=False)
+        new_form.save()
+        choice1 = Choice(question = new_form, choice_text = form.cleaned_data['choice1']).save()
+        choice2 = Choice(question = new_form, choice_text = form.cleaned_data['choice2']).save()
 
-    if request.method == 'POST':
-        form2 = ChoiceForm(request.POST)
-        form = QuestionForm(request.POST)
-        if form.is_valid() and form2.is_valid():
-            form2.question = form.question
-            form2.save()
-            form.save()
-            return redirect('polls:index')
+        return redirect('polls:index')
+    else:
+        form = AddPoll()
 
-    context = {'form': form,'form2': form2}
+    context = {'form': form}
     return render(request, 'polls/createPoll.html', context)
