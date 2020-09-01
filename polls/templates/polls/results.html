@@ -1,0 +1,21 @@
+{% extends 'polls/base.html' %}
+
+{%  block content%}
+
+<div class="col-sm-4 flex-column justify-content-center align-items-center">
+  <h1 >{{ question.question_text }}</h1>
+  <h6 class="text-muted my-4">{{ question.describtion }}</h6>
+<ul class="list-group">
+  {% for choice in question.choice_set.all %}
+  <li class="list-group-item">
+    {{ choice.choice_text }}
+    <span class="badge badge-info badge-pill float-right">{{ choice.votes }} votes</span>  
+  </li>
+  {% endfor %}
+</ul>
+
+<a class="btn btn-primary btn-block my-1 " href="{% url 'polls:detail' question.id %}">Vote again?</a>
+<a class="btn btn-light btn-block my-1" href="{% url 'polls:index' %}">Home</a>
+</div>
+
+{% endblock %}

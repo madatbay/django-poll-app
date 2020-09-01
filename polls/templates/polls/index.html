@@ -1,0 +1,26 @@
+{% extends 'polls/base.html' %}
+
+{%  block content%}
+
+<div class="list-group mx-auto ">
+  <a class="btn btn-light btn-block mb-2" href="{% url 'polls:create' %}">Add Poll.</a>
+  {% if all_polls %}
+  {% for question in all_polls  %}
+  <a href="{% url 'polls:detail' question.id %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1 mr-5">{{ question.question_text }}</h5>
+      <small>{{question.pub_date}}</small>
+    </div>
+    <p class="mb-1 float-left">{{question.describtion}}</p>
+  </a>
+  {% endfor %}
+  {% else %}
+  <div class="alert alert-danger" role="alert">
+    No polls are available.
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+

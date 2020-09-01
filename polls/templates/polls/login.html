@@ -1,0 +1,36 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+
+<div class="col-lg-3 mt-5 text-center">
+<form class="form-signin" action="" method="POST">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+    <label for="text" class="sr-only">Username</label>
+    <input type="text" class="form-control my-2" placeholder="Username"  name="username" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password"  class="form-control my-2" placeholder="Password"  name="password" required>
+    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Register</button>
+    {% for message in messages %}
+    <div class="alert alert-success mt-2" role="alert">
+        {{message}}
+      </div>
+    {% endfor %}
+    <p class="my-3">Don't you have an account? 
+        <a href="{% url 'polls:register' %}" class="text-primary">Register</a>
+    </p>
+    <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+  </form>
+
+  <script>
+      var form_fields = document.getElementsByTagName('input')
+      form_fields[1].placeholder = 'Username'
+      form_fields[2].placeholder = 'Password'
+      form_fields[3].placeholder = 'Confirm Password'
+
+      for(var field in form_fields){
+          form_fields[field].className += 'form-control my-2'
+      }
+
+  </script>
+</div>
+{% endblock %}

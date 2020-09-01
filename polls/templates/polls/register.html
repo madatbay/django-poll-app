@@ -1,0 +1,41 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+
+<div class="col-lg-3 mt-5 text-center">
+<form class="form-signin" action="" method="POST">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <!-- <input type="email" class="form-control my-2" placeholder="Username" required autofocus> -->
+    {{form.username}}
+    <label for="inputPassword" class="sr-only">Password</label>
+    {{form.password1}}
+    <!-- <input type="password"  class="form-control my-2" placeholder="Password" required> -->
+    <label for="inputPassword" class="sr-only">Confirm Password</label>
+    {{form.password2}}
+    <!-- <input type="password"  class="form-control my-2" placeholder="Confirm Password" required> -->
+    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Register</button>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.errors }}
+      </div>
+    {% endif %}
+    <p class="my-3">Already have an account? 
+        <a href="{% url 'polls:login' %}" class="text-primary">Sign in</a>
+    </p>
+    <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+  </form>
+
+  <script>
+      var form_fields = document.getElementsByTagName('input')
+      form_fields[1].placeholder = 'Username'
+      form_fields[2].placeholder = 'Password'
+      form_fields[3].placeholder = 'Confirm Password'
+
+      for(var field in form_fields){
+          form_fields[field].className += 'form-control my-2'
+      }
+
+  </script>
+</div>
+{% endblock %}

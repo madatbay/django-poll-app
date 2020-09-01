@@ -1,0 +1,19 @@
+{% extends 'polls/base.html' %}
+{% block content %}
+<div class="col-lg-6">
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="title">Title</label>
+      {{form.question_text}}
+      <small id="emailHelp" class="form-text text-muted">This will be shown in main page</small>
+    </div>
+    <div class="form-group">
+      <label for="describtion">Describtion</label>
+        {{form.describtion}}
+    </div>
+    {{form2}}
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+  </form>
+</div>
+{% endblock %}
