@@ -6,3 +6,7 @@ a:hover{
   color: #343A40;
   text-decoration:none;
 }
+
+.no-border{
+  border-style: dotted !important;
+}

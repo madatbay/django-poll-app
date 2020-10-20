@@ -1,5 +1,17 @@
 {% extends 'polls/base.html' %}
 {% block content %}
+
+<style>
+  .no-border{
+    border: 0;
+  }
+  .no-border:hover{
+    background-color: #fff;
+    color: #DC3545;
+    text-decoration: underline;
+  }
+</style>
+
 <div class="col-lg-6">
 <form action="" method="POST">
     {% csrf_token %}
@@ -12,13 +24,42 @@
       <label for="describtion">Describtion</label>
         {{form.describtion}}
     </div>
-    <div class="form-group">
-      {{form.choice1.label}}
+    <div class="form-group" id="choices">
       {{form.choice1}}
-      {{form.choice2.label}}
       {{form.choice2}}
     </div>
-    <button type="submit" class="btn btn-outline-primary">Submit</button>
+    <div class="text-center">
+      <button type="button" class="btn btn-outline-primary" onclick="addChoice()">Add Choice</button>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
   </form>
 </div>
+<script>
+  choiceNum = 3;
+  function addChoice(){
+    choicesDiv = document.getElementById("choices");
+    var choiceDiv = document.createElement("DIV");
+    choiceDiv.className = "d-flex my-3"
+    var input = document.createElement("INPUT");
+    input.placeholder = "Enter Choice"
+    input.name = "morechoices";
+    input.id = "id_choice" + choiceNum;
+    choiceNum++;
+    var delButton = document.createElement("BUTTON");
+    delButton.setAttribute("type","link");
+    delButton.innerText = "Remove";
+    delButton.className = "btn btn-sm btn-outline-danger my-1 ml-2 no-border";
+
+    delButton.onclick = function (){
+      parent = this.parentElement;
+      parent.remove();
+    }
+
+    input.classList.add("form-control");
+    choiceDiv.appendChild(input);
+    choiceDiv.appendChild(delButton);
+    choicesDiv.appendChild(choiceDiv);
+  }
+
+</script>
 {% endblock %}

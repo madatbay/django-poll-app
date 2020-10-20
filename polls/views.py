@@ -92,10 +92,16 @@ def logoutUser(request):
 def createPoll(request):
     form = AddPoll(request.POST or None)
     if request.method == 'POST' and form.is_valid():
+        choices = request.POST.getlist('morechoices', None)
+        print(choices)
         new_form = form.save(commit=False)
         new_form.save()
-        choice1 = Choice(question = new_form, choice_text = form.cleaned_data['choice1']).save()
-        choice2 = Choice(question = new_form, choice_text = form.cleaned_data['choice2']).save()
+        choice = {}
+        for i in range(1,3):
+            choice['choice{0}'.format(i)] = Choice(question = new_form, choice_text = form.cleaned_data['choice{0}'.format(i)]).save()
+        for c in choices:
+            if c != "":
+                choice['choice{0}'.format(3)] = Choice(question = new_form, choice_text = c).save()
 
         return redirect('polls:index')
     else:

@@ -9,14 +9,14 @@
     <input type="text" class="form-control my-2" placeholder="Username"  name="username" required autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password"  class="form-control my-2" placeholder="Password"  name="password" required>
-    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Register</button>
+    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Sign in</button>
     {% for message in messages %}
     <div class="alert alert-success mt-2" role="alert">
         {{message}}
       </div>
     {% endfor %}
     <p class="my-3">Don't you have an account? 
-        <a href="{% url 'polls:register' %}" class="text-primary">Register</a>
+        <a href="{% url 'polls:register' %}" class="text-primary">Sign up</a>
     </p>
     <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
   </form>

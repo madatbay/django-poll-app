@@ -4,16 +4,14 @@ from .models import Question, Choice
 
 class AddPoll(ModelForm):
     choice1 = forms.CharField(
-        label='First Choice',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter choice'})
+        widget=forms.TextInput(attrs={'class':'form-control my-2','placeholder':'Enter choice'})
     )
     choice2 = forms.CharField(
-        label='First Choice',
         max_length=100,
-        widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter choice'})
+        widget=forms.TextInput(attrs={'class':'form-control my-2','placeholder':'Enter choice'})
     )
-
+    
     class Meta:
         model = Question
         fields = ['question_text','describtion','choice1','choice2']
