@@ -1,10 +1,14 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings 
 import datetime
+
+User = settings.AUTH_USER_MODEL 
 
 # Create your models here.
 
 class Question(models.Model):
+    user = models.ForeignKey(User, default=1, null= True, on_delete = models.SET_NULL)
     question_text = models.CharField(max_length=70)
     describtion = models.TextField(null=True, max_length=200)
     pub_date = models.DateTimeField(auto_now=True)
@@ -25,3 +29,7 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+class Voter(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    poll = models.ForeignKey(Question, on_delete = models.CASCADE)

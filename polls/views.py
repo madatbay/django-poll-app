@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
 from .forms import AddPoll
-from .models import Question, Choice
+from .models import Question, Choice, Voter
 
 # Create your views here.
 
@@ -32,12 +32,30 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
 
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'polls/results.html'
+def results(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    labels = []
+    data = []
+    queryset = Question.objects.filter(pk = question_id)
+    for question in queryset:
+        for choice in question.choice_set.all():
+            labels.append(choice.choice_text)
+            data.append(choice.votes)
+
+
+    return render(request, 'polls/results.html', {
+        'question': question,
+        'labels': labels,
+        'data': data
+        })
 
 def vote(request, question_id):
     question = get_object_or_404( Question, pk = question_id)
+    if Voter.objects.filter(poll_id = question_id, user_id = request.user.id).exists():
+        return render(request, 'polls/detail.html', {
+        'question': question,
+        'error_message': "Sorry, but you have already voted."
+        })
     try:
         selected = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -48,6 +66,7 @@ def vote(request, question_id):
     else:
         selected.votes += 1
         selected.save()
+        Voter.objects.create(poll_id = question_id, user_id = request.user.id)
         return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 def loginUser(request):
@@ -93,16 +112,17 @@ def createPoll(request):
     form = AddPoll(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         choices = request.POST.getlist('morechoices', None)
-        print(choices)
         new_form = form.save(commit=False)
+        new_form.user = request.user
         new_form.save()
         choice = {}
         for i in range(1,3):
             choice['choice{0}'.format(i)] = Choice(question = new_form, choice_text = form.cleaned_data['choice{0}'.format(i)]).save()
         for c in choices:
             if c != "":
-                choice['choice{0}'.format(3)] = Choice(question = new_form, choice_text = c).save()
-
+                counter = 3
+                choice['choice{0}'.format(counter)] = Choice(question = new_form, choice_text = c.encode('utf8')).save()
+                counter += 1
         return redirect('polls:index')
     else:
         form = AddPoll()

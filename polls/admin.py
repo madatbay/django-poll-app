@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Choice
+from .models import Question, Choice, Voter
 # Register your models here.
 
 class ChoiceInline(admin.TabularInline):
@@ -8,7 +8,7 @@ class ChoiceInline(admin.TabularInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['question_text','describtion']}),
+        (None, {'fields': ['user','question_text','describtion']}),
     ]
     readonly_fields = [('pub_date'),]
     inlines = [ChoiceInline]

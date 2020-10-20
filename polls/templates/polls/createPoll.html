@@ -1,19 +1,9 @@
 {% extends 'polls/base.html' %}
 {% block content %}
 
-<style>
-  .no-border{
-    border: 0;
-  }
-  .no-border:hover{
-    background-color: #fff;
-    color: #DC3545;
-    text-decoration: underline;
-  }
-</style>
-
 <div class="col-lg-6">
-<form action="" method="POST">
+
+<form action="" method="POST" accept-charset="urf-8">
     {% csrf_token %}
     <div class="form-group">
       <label for="title">Title</label>

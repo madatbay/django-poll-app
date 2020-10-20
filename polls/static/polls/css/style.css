@@ -8,5 +8,10 @@ a:hover{
 }
 
 .no-border{
-  border-style: dotted !important;
+  border: 0;
+}
+.no-border:hover{
+  background-color: #fff;
+  color: #DC3545;
+  text-decoration: underline;
 }
